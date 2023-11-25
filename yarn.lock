@@ -1934,7 +1934,7 @@ chrome-trace-event@^1.0.2:
   resolved "https://registry.yarnpkg.com/chrome-trace-event/-/chrome-trace-event-1.0.3.tgz#1015eced4741e15d06664a957dbbf50d041e26ac"
   integrity sha512-p3KULyQg4S7NIHixdwbGX+nFHkoBiA4YQmyWtjb8XngSKV124nJmRysgAeujbUVb15vh+RvFUfCPqU7rXk+hZg==
 
-cleave-zen@0.0.5:
+cleave-zen@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/cleave-zen/-/cleave-zen-0.0.5.tgz#9307281d6e374b88c82706bc0d261b32884c80e4"
   integrity sha512-kkeeaD/D+SEVhYwRS+5eRkdyQfbcbdnNbeyH9ZGfbHUregrJHTuzGd4hkPZ46OObPeRJ7PrZZ7Cm4CfwK8jXcg==

@@ -65,18 +65,17 @@ const main = () => {
         generalInput.value = value;
     });
     const creditcardInput = document.querySelector('.creditcard-input');
+    const creditCardType = document.querySelector('.creditcard-type');
     (0, cleave_zen_1.registerCursorTracker)({
         input: creditcardInput,
         delimiter: cleave_zen_1.DefaultCreditCardDelimiter,
     });
     creditcardInput.addEventListener('input', e => {
-        var _a;
-        const value = (0, cleave_zen_1.formatCreditCard)(e.target.value);
+        const input = e.target;
+        const value = (0, cleave_zen_1.formatCreditCard)(input.value);
         creditcardInput.value = value;
-        const type = (0, cleave_zen_1.getCreditCardType)(e.target.value);
-        const creditCardTypeElement = (_a = document.querySelector('.creditcard-type')) !== null && _a !== void 0 ? _a : null;
-        if (creditCardTypeElement != null)
-            creditCardTypeElement.innerHTML = type;
+        const type = (0, cleave_zen_1.getCreditCardType)(input.value);
+        creditCardType.innerHTML = type;
     });
     const numeralInput = document.querySelector('.numeral-input');
     const numeralInputPrefix = '$';

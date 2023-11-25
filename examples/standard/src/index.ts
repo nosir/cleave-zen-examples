@@ -131,20 +131,21 @@ const main = (): void => {
   const creditcardInput = document.querySelector(
     '.creditcard-input'
   ) as HTMLInputElement
+  const creditCardType = document.querySelector(
+    '.creditcard-type'
+  ) as HTMLDivElement
+
   registerCursorTracker({
     input: creditcardInput,
     delimiter: DefaultCreditCardDelimiter,
   })
   creditcardInput.addEventListener('input', e => {
-    const value: string = formatCreditCard((e.target as HTMLInputElement).value)
+    const input = e.target as HTMLInputElement
+    const value: string = formatCreditCard(input.value)
     creditcardInput.value = value
 
-    const type: CreditCardType = getCreditCardType(
-      (e.target as HTMLInputElement).value
-    )
-    const creditCardTypeElement =
-      document.querySelector('.creditcard-type') ?? null
-    if (creditCardTypeElement != null) creditCardTypeElement.innerHTML = type
+    const type: CreditCardType = getCreditCardType(input.value)
+    creditCardType.innerHTML = type
   })
 
   const numeralInput = document.querySelector(
