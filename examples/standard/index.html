@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Use Bundle JS from Webpack</title>
+</head>
+<style>
+  body {
+    margin: 32px;
+  }
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  input {
+    width: 300px;
+  }
+</style>
+<body>
+
+  <div class="main">
+    <section class="logger"></section>
+    <section>
+      <input placeholder="general" class="general-input" />
+    </section>
+    <section>
+      <input placeholder="credit card" class="creditcard-input" />
+      <div class="creditcard-type"></div>
+    </section>
+    <section>
+      <input placeholder="numeral" class="numeral-input" />
+    </section>
+    <section>
+      <input placeholder="date" class="date-input" />
+    </section>
+    <section>
+      <input placeholder="time" class="time-input" />
+    </section>
+  </div>
+
+  <script src="../vanilla/src/common.js"></script>
+  <script src="./dist/bundle.js"></script>
+
+</body>
+</html>
