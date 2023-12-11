@@ -1,17 +1,21 @@
 const cleaveZen = window.cleaveZen
-const { formatCreditCard, registerCursorTracker, DefaultCreditCardDelimiter } =
-  cleaveZen
+const {
+  formatCreditCard,
+  getCreditCardType,
+  registerCursorTracker,
+  DefaultCreditCardDelimiter,
+} = cleaveZen
 
 const main = () => {
   const creditcardInput = document.querySelector('.creditcard-input')
+  const typeInput = document.querySelector('.creditcard-type')
   registerCursorTracker({
     input: creditcardInput,
     delimiter: DefaultCreditCardDelimiter,
   })
   creditcardInput.addEventListener('input', e => {
-    const { value, type } = formatCreditCard(e.target.value)
-    creditcardInput.value = value
-    document.querySelector('.creditcard-type').innerHTML = type
+    creditcardInput.value = formatCreditCard(e.target.value)
+    typeInput.innerHTML = getCreditCardType(e.target.value)
   })
 }
 
