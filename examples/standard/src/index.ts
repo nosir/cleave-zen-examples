@@ -3,20 +3,25 @@ import {
   getCreditCardType,
   formatGeneral,
   formatCreditCard,
+  unformatCreditCard,
   formatTime,
   formatDate,
   formatNumeral,
+  unformatNumeral,
   DefaultCreditCardDelimiter,
   DefaultTimeDelimiter,
   DefaultDateDelimiter,
   DefaultNumeralDelimiter,
   NumeralThousandGroupStyles,
-  type FormatNumeralOptions,
-  type FormatCreditCardOptions,
-  type FormatTimeOptions,
-  type FormatDateOptions,
-  type FormatGeneralOptions,
-  type CreditCardType,
+  unformatGeneral,
+} from 'cleave-zen'
+import type {
+  FormatNumeralOptions,
+  FormatCreditCardOptions,
+  FormatTimeOptions,
+  FormatDateOptions,
+  FormatGeneralOptions,
+  CreditCardType,
 } from 'cleave-zen'
 
 const main = (): void => {
@@ -42,14 +47,24 @@ const main = (): void => {
       delimiters: ['-', ' ', ' ', ' '],
     })
   ) // PREFIX-AAA-BBB-CCC
-
+  log(
+    unformatGeneral(`${generalPrefix}-AAA BBB CCC`, {
+      delimiters: ['-', ' ', ' ', ' '],
+    })
+  ) // PREFIX-AAA-BBB-CCC
+  log('=====')
   log('Credit Card')
   log(formatCreditCard('5163000011112222')) // 5163 0000 1111 2222
   const creditCardOptions: FormatCreditCardOptions = {
     delimiter: '@',
   }
   log(formatCreditCard('51630000', creditCardOptions)) // 5163@0000@
-
+  log(
+    unformatCreditCard(
+      `5163${creditCardOptions.delimiter}0000${creditCardOptions.delimiter}1111`
+    )
+  ) // 516300001111
+  log('=====')
   log('Numeral')
   log(formatNumeral('3.14')) // 3.14
   const numeralOptions: FormatNumeralOptions = {
@@ -75,15 +90,20 @@ const main = (): void => {
       tailPrefix: true,
     })
   ) // $6,7003,2468.45
-
   log(
-    formatNumeral(numeralValue, {
+    formatNumeral('670032468,45', {
       ...numeralOptions,
       delimiter: '.',
       numeralDecimalMark: ',',
     })
   ) // $670.032.468,45
-
+  log(unformatNumeral('$-670,032,468.45')) // -670032468.45
+  log(
+    unformatNumeral('$670.032.468,45', {
+      numeralDecimalMark: ',',
+    })
+  ) // 670032468.45
+  log('=====')
   log('Date')
   log(formatDate('11041965')) // 11/04/1965
   const dateOptions: FormatDateOptions = {
@@ -92,7 +112,7 @@ const main = (): void => {
   }
   log(formatDate('0926', dateOptions)) // 09-26
   log(formatDate('24122023', { dateMin: '2046-12-31' })) // 31/12/2046
-
+  log('=====')
   log('Time')
   log(formatTime('093030')) // 09:30:30
   log(formatTime('993030')) // 09:30:30
@@ -134,6 +154,9 @@ const main = (): void => {
   const creditCardType = document.querySelector(
     '.creditcard-type'
   ) as HTMLDivElement
+  const creditCardRaw = document.querySelector(
+    '.creditcard-raw'
+  ) as HTMLDivElement
 
   registerCursorTracker({
     input: creditcardInput,
@@ -146,11 +169,15 @@ const main = (): void => {
 
     const type: CreditCardType = getCreditCardType(input.value)
     creditCardType.innerHTML = type
+
+    const raw: string = unformatCreditCard(input.value)
+    creditCardRaw.innerHTML = raw
   })
 
   const numeralInput = document.querySelector(
     '.numeral-input'
   ) as HTMLInputElement
+  const numeralRaw = document.querySelector('.numeral-raw') as HTMLInputElement
   const numeralInputPrefix: string = '$'
   const numeralFormatOptions: FormatNumeralOptions = {
     prefix: numeralInputPrefix,
@@ -167,6 +194,7 @@ const main = (): void => {
       numeralFormatOptions
     )
     numeralInput.value = value
+    numeralRaw.innerHTML = unformatNumeral(value)
   })
 
   const dateInput = document.querySelector('.date-input') as HTMLInputElement

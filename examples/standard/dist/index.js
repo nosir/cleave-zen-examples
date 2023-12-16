@@ -11,12 +11,18 @@ const main = () => {
     log((0, cleave_zen_1.formatGeneral)('AAABBBCCC', generalOptions)); // AAA-BBB-CCC
     log((0, cleave_zen_1.formatGeneral)(`${generalPrefix}AAABBBCCC`, Object.assign(Object.assign({}, generalOptions), { prefix: generalPrefix, blocks: [6, 3, 3, 3] }))); // PREFIX-AAA-BBB-CCC
     log((0, cleave_zen_1.formatGeneral)(`${generalPrefix}AAABBBCCC`, Object.assign(Object.assign({}, generalOptions), { prefix: 'PREFIX', blocks: [6, 3, 3, 3], delimiters: ['-', ' ', ' ', ' '] }))); // PREFIX-AAA-BBB-CCC
+    log((0, cleave_zen_1.unformatGeneral)(`${generalPrefix}-AAA BBB CCC`, {
+        delimiters: ['-', ' ', ' ', ' '],
+    })); // PREFIX-AAA-BBB-CCC
+    log('=====');
     log('Credit Card');
     log((0, cleave_zen_1.formatCreditCard)('5163000011112222')); // 5163 0000 1111 2222
     const creditCardOptions = {
         delimiter: '@',
     };
     log((0, cleave_zen_1.formatCreditCard)('51630000', creditCardOptions)); // 5163@0000@
+    log((0, cleave_zen_1.unformatCreditCard)(`5163${creditCardOptions.delimiter}0000${creditCardOptions.delimiter}1111`)); // 516300001111
+    log('=====');
     log('Numeral');
     log((0, cleave_zen_1.formatNumeral)('3.14')); // 3.14
     const numeralOptions = {
@@ -27,7 +33,12 @@ const main = () => {
     log((0, cleave_zen_1.formatNumeral)(numeralValue, Object.assign(Object.assign({}, numeralOptions), { numeralThousandsGroupStyle: cleave_zen_1.NumeralThousandGroupStyles.LAKH }))); // $67,00,32,468.45
     log((0, cleave_zen_1.formatNumeral)(numeralValue, Object.assign(Object.assign({}, numeralOptions), { numeralThousandsGroupStyle: cleave_zen_1.NumeralThousandGroupStyles.WAN }))); // $6,7003,2468.45
     log((0, cleave_zen_1.formatNumeral)(numeralValue, Object.assign(Object.assign({}, numeralOptions), { tailPrefix: true }))); // $6,7003,2468.45
-    log((0, cleave_zen_1.formatNumeral)(numeralValue, Object.assign(Object.assign({}, numeralOptions), { delimiter: '.', numeralDecimalMark: ',' }))); // $670.032.468,45
+    log((0, cleave_zen_1.formatNumeral)('670032468,45', Object.assign(Object.assign({}, numeralOptions), { delimiter: '.', numeralDecimalMark: ',' }))); // $670.032.468,45
+    log((0, cleave_zen_1.unformatNumeral)('$-670,032,468.45')); // -670032468.45
+    log((0, cleave_zen_1.unformatNumeral)('$670.032.468,45', {
+        numeralDecimalMark: ',',
+    })); // 670032468.45
+    log('=====');
     log('Date');
     log((0, cleave_zen_1.formatDate)('11041965')); // 11/04/1965
     const dateOptions = {
@@ -36,6 +47,7 @@ const main = () => {
     };
     log((0, cleave_zen_1.formatDate)('0926', dateOptions)); // 09-26
     log((0, cleave_zen_1.formatDate)('24122023', { dateMin: '2046-12-31' })); // 31/12/2046
+    log('=====');
     log('Time');
     log((0, cleave_zen_1.formatTime)('093030')); // 09:30:30
     log((0, cleave_zen_1.formatTime)('993030')); // 09:30:30
@@ -66,6 +78,7 @@ const main = () => {
     });
     const creditcardInput = document.querySelector('.creditcard-input');
     const creditCardType = document.querySelector('.creditcard-type');
+    const creditCardRaw = document.querySelector('.creditcard-raw');
     (0, cleave_zen_1.registerCursorTracker)({
         input: creditcardInput,
         delimiter: cleave_zen_1.DefaultCreditCardDelimiter,
@@ -76,8 +89,11 @@ const main = () => {
         creditcardInput.value = value;
         const type = (0, cleave_zen_1.getCreditCardType)(input.value);
         creditCardType.innerHTML = type;
+        const raw = (0, cleave_zen_1.unformatCreditCard)(input.value);
+        creditCardRaw.innerHTML = raw;
     });
     const numeralInput = document.querySelector('.numeral-input');
+    const numeralRaw = document.querySelector('.numeral-raw');
     const numeralInputPrefix = '$';
     const numeralFormatOptions = {
         prefix: numeralInputPrefix,
@@ -91,6 +107,7 @@ const main = () => {
     numeralInput.addEventListener('input', e => {
         const value = (0, cleave_zen_1.formatNumeral)(e.target.value, numeralFormatOptions);
         numeralInput.value = value;
+        numeralRaw.innerHTML = (0, cleave_zen_1.unformatNumeral)(value);
     });
     const dateInput = document.querySelector('.date-input');
     (0, cleave_zen_1.registerCursorTracker)({ input: dateInput, delimiter: cleave_zen_1.DefaultDateDelimiter });
