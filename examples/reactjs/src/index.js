@@ -7,18 +7,20 @@ import {
   unformatCreditCard,
 } from 'cleave-zen'
 
-const App = () => {
+const Block = () => {
   const inputRef = useRef(null)
   const [value, setValue] = useState('')
   const [type, setType] = useState('')
   const [raw, setRaw] = useState('')
 
+  // eslint-disable-next-line arrow-body-style
   useEffect(() => {
-    registerCursorTracker({ input: inputRef.current, delimiter: '*' })
+    // Call this in return to make sure it is unregister when component unmount
+    return registerCursorTracker({ input: inputRef.current, delimiter: '*' })
   }, [])
 
   return (
-    <>
+    <div>
       <input
         ref={inputRef}
         value={value}
@@ -34,6 +36,25 @@ const App = () => {
       <div>value: {value}</div>
       <div>type: {type}</div>
       <div>raw: {raw}</div>
+    </div>
+  )
+}
+
+const App = () => {
+  const [rendering, setRendering] = useState(true)
+  return (
+    <>
+      <div>
+        <button
+          onClick={() => {
+            setRendering(!rendering)
+          }}
+        >
+          toggle render credit card block
+        </button>
+      </div>
+      <br />
+      {rendering && <Block />}
     </>
   )
 }
